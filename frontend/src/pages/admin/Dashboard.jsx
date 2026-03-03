@@ -27,6 +27,7 @@ export default function Dashboard() {
   const [viewBk, setViewBk] = useState(null);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const showToast=(msg,type="success")=>{ setToast({msg,type}); setTimeout(()=>setToast(null),3500); };
 
@@ -61,11 +62,19 @@ export default function Dashboard() {
   const stats = { total:bookings.length, pending:bookings.filter(b=>b.status==="pending").length, contacted:bookings.filter(b=>b.status==="contacted").length, completed:bookings.filter(b=>b.status==="completed").length };
 
   return (
-    <div style={{minHeight:"100vh",background:"var(--off-white)",display:"flex"}}>
+    <div className="dash-layout">
       {toast && <div className={`toast ${toast.type}`}>{toast.msg}</div>}
 
+      {/* Mobile hamburger */}
+      <button className="dash-hamburger" onClick={() => setSidebarOpen(!sidebarOpen)} aria-label="Toggle sidebar">
+        <span /><span /><span />
+      </button>
+
+      {/* Sidebar backdrop (mobile) */}
+      {sidebarOpen && <div className="dash-sidebar-backdrop" onClick={() => setSidebarOpen(false)} />}
+
       {/* SIDEBAR */}
-      <aside style={{width:"240px",background:"var(--white)",borderRight:"1px solid rgba(8,20,227,0.08)",padding:"1.75rem 1.25rem",display:"flex",flexDirection:"column",position:"fixed",top:0,bottom:0,left:0,zIndex:100,boxShadow:"4px 0 24px rgba(8,20,227,0.06)"}}>
+      <aside className={`dash-sidebar ${sidebarOpen ? "open" : ""}`}>
         <div style={{display:"flex",alignItems:"center",gap:"0.75rem",marginBottom:"2.5rem",paddingBottom:"1.5rem",borderBottom:"1px solid rgba(8,20,227,0.08)"}}>
           <div style={{width:"36px",height:"36px",background:"linear-gradient(135deg,var(--royal),var(--blue-mid))",borderRadius:"var(--radius-sm)",display:"flex",alignItems:"center",justifyContent:"center",color:"white",fontSize:"1rem",boxShadow:"0 4px 12px rgba(8,20,227,0.3)"}}>✈</div>
           <div>
@@ -76,7 +85,7 @@ export default function Dashboard() {
 
         <nav style={{flex:1,display:"flex",flexDirection:"column",gap:"0.25rem"}}>
           {NAV.map(({id,icon,label})=>(
-            <button key={id} onClick={()=>setTab(id)}
+            <button key={id} onClick={()=>{setTab(id);setSidebarOpen(false);}}
               style={{display:"flex",alignItems:"center",gap:"0.75rem",padding:"0.8rem 1rem",background:tab===id?"var(--blue-dim)":"transparent",border:"none",borderRadius:"var(--radius)",color:tab===id?"var(--royal)":"var(--text-muted)",fontSize:"0.88rem",fontWeight:600,cursor:"pointer",textAlign:"left",width:"100%",transition:"all 0.2s",fontFamily:"'Plus Jakarta Sans',sans-serif"}}>
               <span style={{fontSize:"1rem"}}>{icon}</span>{label}
             </button>
@@ -97,7 +106,7 @@ export default function Dashboard() {
       </aside>
 
       {/* MAIN */}
-      <main style={{marginLeft:"240px",flex:1,padding:"2rem 2.5rem",minWidth:0}}>
+      <main className="dash-main">
         {/* HEADER */}
         <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:"2rem"}}>
           <div>
@@ -114,7 +123,7 @@ export default function Dashboard() {
         </div>
 
         {/* STATS CARDS */}
-        <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:"1.25rem",marginBottom:"2rem"}}>
+        <div className="dash-stat-grid">
           {[
             {label:"Total Bookings",value:stats.total,   icon:"📋",color:"var(--royal)",  bg:"var(--blue-dim)"},
             {label:"Pending",       value:stats.pending,  icon:"⏳",color:"#C2410C",       bg:"#FFF7ED"},
@@ -147,15 +156,15 @@ export default function Dashboard() {
             </div>
 
             {loading ? (
-              <div style={{textAlign:"center",padding:"4rem",color:"var(--text-muted)"}}>Loading bookings...</div>
+              <div style={{display:"flex",justifyContent:"center",padding:"4rem"}}><div className="spinner lg" /></div>
             ) : filtered.length===0 ? (
               <div style={{textAlign:"center",padding:"4rem",color:"var(--text-muted)",background:"var(--white)",borderRadius:"var(--radius-lg)",border:"1px solid rgba(8,20,227,0.08)"}}>
                 <p style={{fontSize:"2.5rem",marginBottom:"0.75rem"}}>📋</p>
                 <p style={{fontWeight:600}}>No bookings found</p>
               </div>
             ) : (
-              <div style={{background:"var(--white)",border:"1px solid rgba(8,20,227,0.08)",borderRadius:"var(--radius-lg)",overflow:"hidden",boxShadow:"var(--shadow-sm)"}}>
-                <table style={{width:"100%",borderCollapse:"collapse"}}>
+              <div style={{background:"var(--white)",border:"1px solid rgba(8,20,227,0.08)",borderRadius:"var(--radius-lg)",overflow:"auto",boxShadow:"var(--shadow-sm)",WebkitOverflowScrolling:"touch"}}>
+                <table style={{width:"100%",borderCollapse:"collapse",minWidth:"700px"}}>
                   <thead>
                     <tr style={{background:"var(--off-white)",borderBottom:"1px solid rgba(8,20,227,0.08)"}}>
                       {["#","Client","Service","Date","Status","Submitted","Actions"].map(h=>(
@@ -333,6 +342,52 @@ export default function Dashboard() {
           </div>
         </div>
       )}
+
+      <style>{`
+        .dash-layout { min-height:100vh; background:var(--off-white); display:flex; }
+        .dash-sidebar {
+          width:240px; background:var(--white); border-right:1px solid rgba(8,20,227,0.08);
+          padding:1.75rem 1.25rem; display:flex; flex-direction:column;
+          position:fixed; top:0; bottom:0; left:0; z-index:200;
+          box-shadow:4px 0 24px rgba(8,20,227,0.06);
+          transition: transform 0.3s ease;
+        }
+        .dash-main { margin-left:240px; flex:1; padding:2rem 2.5rem; min-width:0; }
+        .dash-hamburger { display:none; }
+        .dash-sidebar-backdrop { display:none; }
+        .dash-stat-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1.25rem; margin-bottom:2rem; }
+
+        @media (max-width:768px) {
+          .dash-sidebar {
+            transform: translateX(-100%);
+          }
+          .dash-sidebar.open {
+            transform: translateX(0);
+          }
+          .dash-sidebar-backdrop {
+            display:block; position:fixed; inset:0; background:rgba(13,15,26,0.5);
+            backdrop-filter:blur(4px); z-index:199;
+          }
+          .dash-hamburger {
+            display:flex; flex-direction:column; gap:5px;
+            position:fixed; top:1.25rem; left:1.25rem; z-index:201;
+            background:var(--white); border:1px solid rgba(8,20,227,0.1);
+            border-radius:var(--radius-sm); padding:10px;
+            cursor:pointer; box-shadow:var(--shadow-sm);
+          }
+          .dash-hamburger span {
+            display:block; width:20px; height:2px;
+            background:var(--text-dark); border-radius:2px;
+          }
+          .dash-main { margin-left:0; padding:4.5rem 1.25rem 2rem; }
+        }
+        @media (max-width:960px) {
+          .dash-stat-grid { grid-template-columns:repeat(2,1fr) !important; }
+        }
+        @media (max-width:480px) {
+          .dash-stat-grid { grid-template-columns:1fr !important; }
+        }
+      `}</style>
     </div>
   );
 }

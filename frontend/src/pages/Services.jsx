@@ -19,7 +19,7 @@ export default function Services() {
   }, []);
 
   return (
-    <div>
+    <div className="page-enter">
       <section className="page-hero">
         <div className="container">
           <span className="section-label fade-up">What We Offer</span>
@@ -34,7 +34,9 @@ export default function Services() {
       <section style={{ padding:"5rem 0", background:"var(--off-white)" }}>
         <div className="container">
           {loading ? (
-            <div style={{ textAlign:"center", padding:"4rem", color:"var(--text-muted)" }}>Loading services...</div>
+            <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:"1.5rem" }}>
+              {[1,2,3,4,5].map(n => <div key={n} className="skeleton-card" />)}
+            </div>
           ) : (
             <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:"1.5rem" }}>
               {services.map((s, i) => <ServiceCard key={s.id} service={s} index={i} />)}
@@ -72,6 +74,7 @@ export default function Services() {
         @media (max-width:960px) {
           section > .container > div[style*="grid-template-columns: repeat(3"] { grid-template-columns: 1fr 1fr !important; }
           section > .container > div[style*="grid-template-columns: repeat(4"] { grid-template-columns: 1fr 1fr !important; }
+          .skeleton-card { grid-template-columns: 1fr 1fr !important; }
         }
         @media (max-width:560px) {
           section > .container > div[style*="grid-template-columns"] { grid-template-columns: 1fr !important; }

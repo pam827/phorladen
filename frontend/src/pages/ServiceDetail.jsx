@@ -21,14 +21,14 @@ export default function ServiceDetail() {
     getService(slug).then(r => setService(r.data)).catch(()=>setService(fb||null)).finally(()=>setLoading(false));
   }, [slug]);
 
-  if (loading) return <div style={{ display:"flex",alignItems:"center",justifyContent:"center",minHeight:"80vh" }}><p style={{ color:"var(--text-muted)" }}>Loading...</p></div>;
+  if (loading) return <div style={{ display:"flex",alignItems:"center",justifyContent:"center",minHeight:"80vh" }}><div className="spinner lg" /></div>;
   if (!service) return <div style={{ textAlign:"center",padding:"8rem 2rem" }}><h2>Service not found</h2><Link to="/services" className="btn-blue" style={{ marginTop:"1.5rem",display:"inline-flex" }}>Back to Services</Link></div>;
 
   const features = service.features || fb?.features || [];
   const meta = fb || {};
 
   return (
-    <div>
+    <div className="page-enter">
       <section className="page-hero" style={{ paddingBottom:"6rem" }}>
         <div className="container">
           <Link to="/services" style={{ color:"rgba(255,255,255,0.5)",fontSize:"0.82rem",letterSpacing:"0.05em",display:"inline-flex",alignItems:"center",gap:"0.4rem",marginBottom:"1.5rem" }}>

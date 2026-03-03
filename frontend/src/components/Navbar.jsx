@@ -14,6 +14,11 @@ export default function Navbar() {
 
   useEffect(() => setOpen(false), [location]);
 
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
+
   const links = [
     { to: "/", label: "Home" },
     { to: "/services", label: "Services" },
@@ -53,7 +58,21 @@ export default function Navbar() {
         </button>
       </div>
 
+      {open && <div className="nav-backdrop" onClick={() => setOpen(false)} />}
+
       <style>{`
+        .nav-backdrop {
+          display: none;
+        }
+        @media (max-width: 900px) {
+          .nav-backdrop {
+            display: block;
+            position: fixed; inset: 0;
+            background: rgba(13,15,26,0.5);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+          }
+        }
         .navbar {
           position: fixed; top: 0; left: 0; right: 0;
           z-index: 1000; padding: 1.25rem 0;
@@ -125,6 +144,7 @@ export default function Navbar() {
             flex-direction: column; align-items: flex-start;
             padding: 5rem 1.75rem 2rem; gap: 0.25rem;
             transition: right 0.4s cubic-bezier(0.4,0,0.2,1);
+            z-index: 1000;
           }
           .nav-links.open { right: 0; }
           .nav-links li { width: 100%; }

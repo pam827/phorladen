@@ -3,6 +3,14 @@ import { Link } from "react-router-dom";
 import { getServices } from "../services/api";
 import ServiceCard from "../components/ServiceCard";
 
+const HERO_IMAGES = [
+  "/images/hero/logistics.jpg",
+  "/images/hero/aircraft.jpg",
+  "/images/hero/hotel.jpg",
+  "/images/hero/travel.jpg",
+  "/images/hero/courier.jpg",
+];
+
 const FALLBACK = [
   { id:1, name:"Courier & Cargo",      slug:"courier-cargo",      description:"Reliable, fast, and secure courier and cargo solutions across domestic and international destinations." },
   { id:2, name:"Travel Reservation",   slug:"travel-reservation", description:"Premium travel booking services tailored to business and leisure travelers worldwide." },
@@ -29,14 +37,40 @@ const WHY_US = [
 
 export default function Home() {
   const [services, setServices] = useState(FALLBACK);
+  const [currentImg, setCurrentImg] = useState(0);
+
   useEffect(() => {
     getServices().then(r => r.data?.length && setServices(r.data)).catch(()=>{});
+  }, []);
+
+  // Preload hero images
+  useEffect(() => {
+    HERO_IMAGES.forEach(src => { const img = new Image(); img.src = src; });
+  }, []);
+
+  // Auto-cycle hero images every 5 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImg(prev => (prev + 1) % HERO_IMAGES.length);
+    }, 5000);
+    return () => clearInterval(timer);
   }, []);
 
   return (
     <div className="home">
       {/* ── HERO ─────────────────────────────────────────── */}
       <section className="hero">
+        {/* Slideshow background images */}
+        <div className="hero-slideshow">
+          {HERO_IMAGES.map((src, i) => (
+            <div
+              key={src}
+              className={`hero-slide ${i === currentImg ? "active" : ""}`}
+              style={{ backgroundImage: `url(${src})` }}
+            />
+          ))}
+          <div className="hero-slide-overlay" />
+        </div>
         <div className="hero-bg">
           <div className="hero-blob hero-blob-1" />
           <div className="hero-blob hero-blob-2" />
@@ -60,7 +94,7 @@ export default function Home() {
                 Get a Free Quote
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3.75 9h10.5M9.75 4.5L14.25 9l-4.5 4.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </Link>
-              <Link to="/services" className="btn-outline">Explore Services</Link>
+              <Link to="/services" className="btn-outline" style={{ borderColor: "rgba(255,255,255,0.5)", color: "white" }}>Explore Services</Link>
             </div>
             
           </div>
@@ -85,6 +119,18 @@ export default function Home() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Slideshow indicators */}
+        <div className="hero-indicators">
+          {HERO_IMAGES.map((_, i) => (
+            <button
+              key={i}
+              className={`hero-dot ${i === currentImg ? "active" : ""}`}
+              onClick={() => setCurrentImg(i)}
+              aria-label={`Go to slide ${i + 1}`}
+            />
+          ))}
         </div>
 
         <div className="hero-stats-bar fade-up fade-up-4">
@@ -216,11 +262,59 @@ export default function Home() {
         /* HERO */
         .hero {
           min-height: 100vh; padding: 7rem 0 0;
-          background: linear-gradient(160deg, var(--dark) 0%, var(--dark-2) 45%, var(--royal-deep) 100%);
+          background: var(--dark);
           position: relative; overflow: hidden;
           display: flex; flex-direction: column;
         }
-        .hero-bg { position: absolute; inset: 0; pointer-events: none; }
+
+        /* SLIDESHOW */
+        .hero-slideshow {
+          position: absolute; inset: 0; z-index: 0;
+        }
+        .hero-slide {
+          position: absolute; inset: 0;
+          background-size: cover;
+          background-position: center;
+          opacity: 0;
+          transition: opacity 1.2s ease-in-out;
+          will-change: opacity;
+        }
+        .hero-slide.active {
+          opacity: 1;
+        }
+        .hero-slide-overlay {
+          position: absolute; inset: 0;
+          background: linear-gradient(160deg, rgba(13,15,26,0.82) 0%, rgba(19,22,42,0.78) 45%, rgba(4,12,138,0.75) 100%);
+          z-index: 1;
+        }
+
+        /* INDICATORS */
+        .hero-indicators {
+          position: absolute;
+          bottom: 7rem; left: 50%;
+          transform: translateX(-50%);
+          display: flex; gap: 0.5rem;
+          z-index: 5;
+        }
+        .hero-dot {
+          width: 10px; height: 10px;
+          border-radius: 50%;
+          border: 2px solid rgba(255,255,255,0.5);
+          background: transparent;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          padding: 0;
+        }
+        .hero-dot.active {
+          background: var(--white);
+          border-color: var(--white);
+          transform: scale(1.2);
+        }
+        .hero-dot:hover {
+          border-color: var(--white);
+        }
+
+        .hero-bg { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
         .hero-blob {
           position: absolute; border-radius: 50%;
           filter: blur(80px); opacity: 0.35;
@@ -241,7 +335,7 @@ export default function Home() {
           background-size: 32px 32px;
         }
         .hero-inner {
-          position: relative; z-index: 1;
+          position: relative; z-index: 3;
           display: grid; grid-template-columns: 1fr 1fr;
           gap: 4rem; align-items: center; flex: 1; padding-top: 2rem;
         }
@@ -322,7 +416,7 @@ export default function Home() {
           backdrop-filter: blur(16px);
           border-top: 1px solid rgba(255,255,255,0.08);
           padding: 1.5rem 0; margin-top: 3rem;
-          position: relative; z-index: 1;
+          position: relative; z-index: 3;
         }
         .stats-row {
           display: grid; grid-template-columns: repeat(4,1fr); gap: 0;

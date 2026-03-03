@@ -64,6 +64,14 @@ export default function Login() {
           © {new Date().getFullYear()} Phorladen Global Services
         </p>
       </div>
+
+      <style>{`
+        .form-group input:focus-visible {
+          border-color: rgba(168,221,235,0.5) !important;
+          box-shadow: 0 0 0 3px rgba(168,221,235,0.2) !important;
+          outline: none;
+        }
+      `}</style>
     </div>
   );
 }
