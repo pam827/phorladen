@@ -35,7 +35,7 @@ export default function Contact() {
           <div>
             <h3 style={{fontFamily:"'Fraunces',serif",fontSize:"1.8rem",marginBottom:"2rem"}}>Let's <em style={{color:"var(--royal)"}}>Connect</em></h3>
             {[
-              {icon:"📍",title:"Head Office",   lines:["123 Global Avenue","Business District, Lagos, Nigeria"]},
+              
               {icon:"📞",title:"Phone",         lines:["+2348034724314","+2348021038466"]},
               {icon:"✉️",title:"Email",         lines:["Ladenglowing@gmail.com",""]},
               {icon:"🕐",title:"Business Hours",lines:["Mon–Fri: 8AM – 6PM WAT","Saturday: 9AM – 2PM WAT"]},

@@ -135,7 +135,7 @@ export default function Home() {
               <h2 className="section-title">Built for <em>Excellence</em></h2>
               <div className="blue-line" />
               <p style={{ color:"var(--text-muted)", lineHeight:1.8, marginBottom:"2rem", fontSize:"0.97rem" }}>
-                With over a decade of experience, Phorladen has established itself as the leading provider of integrated logistics and travel solutions in West Africa. Our commitment is simple: deliver beyond expectations, every single time.
+                With lot of experience, Phorladen has established itself as the leading provider of integrated logistics and travel solutions in West Africa. Our commitment is simple: deliver beyond expectations, every single time.
               </p>
               <Link to="/booking" className="btn-primary">Start a Request</Link>
 
