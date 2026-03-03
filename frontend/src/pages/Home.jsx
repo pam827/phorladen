@@ -62,12 +62,7 @@ export default function Home() {
               </Link>
               <Link to="/services" className="btn-outline">Explore Services</Link>
             </div>
-            <div className="hero-trust fade-up fade-up-3">
-              <span className="trust-text">Certified with</span>
-              {["IATA","FAAN","ICEA","FIATA"].map(b => (
-                <span key={b} className="trust-badge">{b}</span>
-              ))}
-            </div>
+            
           </div>
 
           <div className="hero-visual fade-up fade-up-2">

@@ -24,7 +24,7 @@ export default function Footer() {
               </div>
             </Link>
             <p className="footer-desc">
-              Your trusted partner for global logistics, travel, and freight solutions. Excellence delivered worldwide since 2012.
+              Your trusted partner for global logistics, travel, and freight solutions. Excellence delivered worldwide.
             </p>
             <div className="footer-socials">
               {[{label:"LinkedIn",icon:"in"},{label:"Twitter",icon:"tw"},{label:"Facebook",icon:"fb"}].map(({label,icon}) => (
@@ -57,7 +57,7 @@ export default function Footer() {
             <h4 className="footer-heading">Contact Info</h4>
             <ul className="footer-contact-list">
               {[
-                { icon: "📍", lines: ["123 Global Avenue", "Business District, Lagos, Nigeria"] },
+{ icon: "📞", lines: ["+2348021038466"] },
                 { icon: "📞", lines: ["+2348034724314"] },
                 { icon: "✉️", lines: ["Ladenglowing@gmail.com"] },
                 { icon: "🕐", lines: ["Mon–Fri: 8AM – 6PM WAT"] },
