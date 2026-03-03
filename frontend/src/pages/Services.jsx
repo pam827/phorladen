@@ -54,14 +54,16 @@ export default function Services() {
           </div>
           <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:"1.5rem" }}>
             {[
-              { step:"01", icon:"📝", title:"Submit Request",  desc:"Fill our quick form with your service requirements." },
-              { step:"02", icon:"💬", title:"Get a Quote",     desc:"Receive a tailored quote within 2 hours." },
-              { step:"03", icon:"✅", title:"Confirm Booking", desc:"Review, confirm, and proceed securely." },
-              { step:"04", icon:"🚀", title:"We Deliver",      desc:"Our team executes with full tracking." },
-            ].map(({ step, icon, title, desc }) => (
+              { step:"01", title:"Submit Request",  desc:"Fill our quick form with your service requirements.",  d:"M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" },
+              { step:"02", title:"Get a Quote",     desc:"Receive a tailored quote within 2 hours.",            d:"M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" },
+              { step:"03", title:"Confirm Booking", desc:"Review, confirm, and proceed securely.",              d:"M22 11.08V12a10 10 0 11-5.93-9.14M22 4l-10 10.01-3-3" },
+              { step:"04", title:"We Deliver",      desc:"Our team executes with full tracking.",               d:"M5 12h14M12 5l7 7-7 7" },
+            ].map(({ step, title, desc, d }) => (
               <div key={step} style={{ textAlign:"center", padding:"2rem 1.5rem", background:"var(--off-white)", border:"1.5px solid rgba(8,20,227,0.08)", borderRadius:"var(--radius-lg)", transition:"var(--transition)" }}>
                 <div style={{ fontFamily:"'Fraunces',serif", fontSize:"2.2rem", fontWeight:300, color:"rgba(8,20,227,0.12)", lineHeight:1, marginBottom:"0.75rem" }}>{step}</div>
-                <div style={{ fontSize:"2rem", marginBottom:"0.75rem" }}>{icon}</div>
+                <div style={{ display:"flex", alignItems:"center", justifyContent:"center", width:"56px", height:"56px", margin:"0 auto 0.75rem", background:"rgba(8,20,227,0.06)", borderRadius:"50%" }}>
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--royal)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d={d} /></svg>
+                </div>
                 <h3 style={{ fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:"0.95rem", fontWeight:700, color:"var(--text-dark)", marginBottom:"0.4rem" }}>{title}</h3>
                 <p style={{ fontSize:"0.83rem", color:"var(--text-muted)", lineHeight:1.65 }}>{desc}</p>
               </div>

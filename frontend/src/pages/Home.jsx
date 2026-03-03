@@ -19,21 +19,49 @@ const FALLBACK = [
   { id:5, name:"General Logistics",    slug:"general-logistics",  description:"End-to-end logistics management including warehousing, distribution, and supply chain optimization." },
 ];
 
+// SVG icon helpers
+const Icon = ({ d, size = 24, color = "currentColor", children }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">{children || <path d={d} />}</svg>
+);
+
 const STATS = [
-  { value:"12+", label:"Years Experience", icon:"🏆" },
-  { value:"50+", label:"Countries Served", icon:"🌍" },
-  { value:"10K+",label:"Happy Clients",    icon:"😊" },
-  { value:"99%", label:"On-Time Delivery", icon:"⚡" },
+  { value:"12+", label:"Years Experience", icon:"trophy" },
+  { value:"50+", label:"Countries Served", icon:"globe" },
+  { value:"10K+",label:"Happy Clients",    icon:"users" },
+  { value:"99%", label:"On-Time Delivery", icon:"zap" },
 ];
 
+const STAT_ICONS = {
+  trophy: (c) => <Icon size={28} color={c}><path d="M6 9H4.5a2.5 2.5 0 010-5C7 4 7 7 7 7"/><path d="M18 9h1.5a2.5 2.5 0 000-5C17 4 17 7 17 7"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20 17 22"/><path d="M18 2H6v7a6 6 0 0012 0V2z"/></Icon>,
+  globe:  (c) => <Icon size={28} color={c}><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 014 10 14.5 14.5 0 01-4 10 14.5 14.5 0 01-4-10A14.5 14.5 0 0112 2"/><path d="M2 12h20"/></Icon>,
+  users:  (c) => <Icon size={28} color={c}><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></Icon>,
+  zap:    (c) => <Icon size={28} color={c}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></Icon>,
+};
+
 const WHY_US = [
-  { icon:"🌐", title:"Global Network",    desc:"Operations spanning 50+ countries with trusted local partners for seamless end-to-end delivery." },
-  { icon:"⚡", title:"Speed & Reliability",desc:"Time-critical shipments handled with precision, real-time tracking, and guaranteed timelines." },
-  { icon:"🔒", title:"Secure Handling",   desc:"Every shipment is insured, tracked, and handled with the highest security standards." },
-  { icon:"💬", title:"24/7 Support",      desc:"Dedicated account managers available around the clock for every query and concern." },
-  { icon:"💼", title:"Tailored Solutions",desc:"Customized logistics and travel packages designed specifically for your business needs." },
-  { icon:"✅", title:"Certified & Licensed",desc:"Fully accredited with IATA, FAAN, and major international logistics certifications." },
+  { icon:"globe",     title:"Global Network",      desc:"Operations spanning 50+ countries with trusted local partners for seamless end-to-end delivery." },
+  { icon:"zap",       title:"Speed & Reliability",  desc:"Time-critical shipments handled with precision, real-time tracking, and guaranteed timelines." },
+  { icon:"lock",      title:"Secure Handling",      desc:"Every shipment is insured, tracked, and handled with the highest security standards." },
+  { icon:"chat",      title:"24/7 Support",         desc:"Dedicated account managers available around the clock for every query and concern." },
+  { icon:"briefcase", title:"Tailored Solutions",    desc:"Customized logistics and travel packages designed specifically for your business needs." },
+  { icon:"check",     title:"Certified & Licensed",  desc:"Fully accredited with IATA, FAAN, and major international logistics certifications." },
 ];
+
+const WHY_ICONS = {
+  globe:     () => <Icon color="var(--royal)"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 014 10 14.5 14.5 0 01-4 10 14.5 14.5 0 01-4-10A14.5 14.5 0 0112 2"/><path d="M2 12h20"/></Icon>,
+  zap:       () => <Icon color="var(--royal)"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></Icon>,
+  lock:      () => <Icon color="var(--royal)"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></Icon>,
+  chat:      () => <Icon color="var(--royal)"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></Icon>,
+  briefcase: () => <Icon color="var(--royal)"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></Icon>,
+  check:     () => <Icon color="var(--royal)"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></Icon>,
+};
+
+const PROCESS_ICONS = {
+  edit:    () => <Icon size={32} color="var(--royal)"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></Icon>,
+  quote:   () => <Icon size={32} color="var(--royal)"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/><path d="M8 9h8"/><path d="M8 13h4"/></Icon>,
+  confirm: () => <Icon size={32} color="var(--royal)"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></Icon>,
+  deliver: () => <Icon size={32} color="var(--royal)"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></Icon>,
+};
 
 export default function Home() {
   const [services, setServices] = useState(FALLBACK);
@@ -104,7 +132,7 @@ export default function Home() {
               <div className="hcard hcard-back" />
               <div className="hcard hcard-mid" />
               <div className="hcard hcard-front">
-                <div className="hcard-icon">✈️</div>
+                <div className="hcard-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.4-.1.9.3 1.1L11 12l-2 3H6l-1 1 3 2 2 3 1-1v-3l3-2 4.3 7.3c.2.4.7.5 1.1.3l.5-.3c.4-.2.6-.7.5-1.1z"/></svg></div>
                 <p className="hcard-title">Phorladen Express</p>
                 <p className="hcard-sub">Live Tracking Available</p>
                 <div className="hcard-route">
@@ -138,7 +166,7 @@ export default function Home() {
             <div className="stats-row">
               {STATS.map(({ value, label, icon }) => (
                 <div key={label} className="stat-pill">
-                  <span className="stat-icon">{icon}</span>
+                  <span className="stat-icon">{STAT_ICONS[icon]("rgba(255,255,255,0.7)")}</span>
                   <div>
                     <span className="stat-val">{value}</span>
                     <span className="stat-lbl">{label}</span>
@@ -202,7 +230,7 @@ export default function Home() {
             <div className="why-right">
               {WHY_US.map(({ icon, title, desc }) => (
                 <div key={title} className="why-card">
-                  <div className="why-icon">{icon}</div>
+                  <div className="why-icon">{WHY_ICONS[icon]()}</div>
                   <div>
                     <h4 className="why-card-title">{title}</h4>
                     <p className="why-card-desc">{desc}</p>
@@ -224,14 +252,14 @@ export default function Home() {
           </div>
           <div className="process-steps">
             {[
-              { n:"01", icon:"📝", title:"Submit Request",  desc:"Fill our quick service form with your requirements." },
-              { n:"02", icon:"💬", title:"Receive Quote",   desc:"Get a tailored quote from our team within 2 hours." },
-              { n:"03", icon:"✅", title:"Confirm & Pay",   desc:"Review, confirm, and proceed with your booking." },
-              { n:"04", icon:"🚀", title:"We Deliver",      desc:"Our experts execute with full tracking and updates." },
+              { n:"01", icon:"edit",    title:"Submit Request",  desc:"Fill our quick service form with your requirements." },
+              { n:"02", icon:"quote",   title:"Receive Quote",   desc:"Get a tailored quote from our team within 2 hours." },
+              { n:"03", icon:"confirm", title:"Confirm & Pay",   desc:"Review, confirm, and proceed with your booking." },
+              { n:"04", icon:"deliver", title:"We Deliver",      desc:"Our experts execute with full tracking and updates." },
             ].map(({ n, icon, title, desc }, i) => (
               <div key={n} className="process-step">
                 <div className="ps-num">{n}</div>
-                <div className="ps-icon">{icon}</div>
+                <div className="ps-icon">{PROCESS_ICONS[icon]()}</div>
                 <h3 className="ps-title">{title}</h3>
                 <p className="ps-desc">{desc}</p>
                 {i < 3 && <div className="ps-connector" />}
@@ -427,7 +455,7 @@ export default function Home() {
           border-right: 1px solid rgba(255,255,255,0.08);
         }
         .stat-pill:last-child { border-right: none; }
-        .stat-icon { font-size: 1.5rem; }
+        .stat-icon { font-size: 1.5rem; display: flex; align-items: center; }
         .stat-val {
           display: block;
           font-family: 'Fraunces', serif;
@@ -479,7 +507,11 @@ export default function Home() {
           transition: var(--transition);
         }
         .why-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
-        .why-icon { font-size: 1.5rem; flex-shrink: 0; }
+        .why-icon {
+          width: 44px; height: 44px; flex-shrink: 0;
+          display: flex; align-items: center; justify-content: center;
+          background: var(--blue-dim); border-radius: var(--radius);
+        }
         .why-card-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.88rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.3rem; }
         .why-card-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.65; }
 
@@ -500,7 +532,11 @@ export default function Home() {
           font-size: 2.5rem; font-weight: 300;
           color: rgba(8,20,227,0.12); line-height: 1; margin-bottom: 0.75rem;
         }
-        .ps-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+        .ps-icon {
+          display: flex; align-items: center; justify-content: center;
+          width: 56px; height: 56px; margin: 0 auto 0.75rem;
+          background: var(--blue-dim); border-radius: 50%;
+        }
         .ps-title { font-size: 1rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.5rem; font-family: 'Plus Jakarta Sans', sans-serif; }
         .ps-desc { font-size: 0.83rem; color: var(--text-muted); line-height: 1.65; }
         .ps-connector {

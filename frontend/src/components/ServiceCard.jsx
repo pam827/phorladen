@@ -1,29 +1,36 @@
 import { Link } from "react-router-dom";
 
 const SERVICE_META = {
-  "courier-cargo":      { icon: "📦", color: "#0814E3", bg: "rgba(8,20,227,0.06)" },
-  "travel-reservation": { icon: "✈️", color: "#FF7A00", bg: "rgba(255,122,0,0.08)" },
-  "hotel-reservation":  { icon: "🏨", color: "#0814E3", bg: "rgba(8,20,227,0.06)" },
-  "aircraft-charter":   { icon: "🛩️", color: "#FF7A00", bg: "rgba(255,122,0,0.08)" },
-  "general-logistics":  { icon: "🚚", color: "#0814E3", bg: "rgba(8,20,227,0.06)" },
+  "courier-cargo":      { img: "/images/services/courier-cargo.jpg",      color: "#0814E3" },
+  "travel-reservation": { img: "/images/services/travel-reservation.jpg", color: "#FF7A00" },
+  "hotel-reservation":  { img: "/images/services/hotel-reservation.jpg",  color: "#0814E3" },
+  "aircraft-charter":   { img: "/images/services/aircraft-charter.jpg",   color: "#FF7A00" },
+  "general-logistics":  { img: "/images/services/general-logistics.jpg",  color: "#0814E3" },
 };
 
 export default function ServiceCard({ service, index = 0 }) {
-  const meta = SERVICE_META[service.slug] || { icon: "🌐", color: "#0814E3", bg: "rgba(8,20,227,0.06)" };
+  const meta = SERVICE_META[service.slug] || { img: null, color: "#0814E3" };
 
   return (
     <Link to={`/services/${service.slug}`} className="svc-card fade-up" style={{ animationDelay: `${index * 0.08}s` }}>
-      <div className="svc-icon-wrap" style={{ background: meta.bg }}>
-        <span className="svc-icon">{meta.icon}</span>
+      <div className="svc-img-wrap">
+        {meta.img ? (
+          <img src={meta.img} alt={service.name} className="svc-img" loading="lazy" />
+        ) : (
+          <div className="svc-img-placeholder" />
+        )}
+        <div className="svc-img-overlay" />
+        <div className="svc-num">0{index + 1}</div>
       </div>
-      <div className="svc-num">0{index + 1}</div>
-      <h3 className="svc-name">{service.name}</h3>
-      <p className="svc-desc">{service.description?.substring(0, 105)}...</p>
-      <div className="svc-link" style={{ color: meta.color }}>
-        <span>Learn More</span>
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
+      <div className="svc-body">
+        <h3 className="svc-name">{service.name}</h3>
+        <p className="svc-desc">{service.description?.substring(0, 105)}...</p>
+        <div className="svc-link" style={{ color: meta.color }}>
+          <span>Learn More</span>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </div>
       </div>
       <div className="svc-bar" style={{ background: meta.color }} />
 
@@ -33,7 +40,6 @@ export default function ServiceCard({ service, index = 0 }) {
           background: var(--white);
           border: 1.5px solid rgba(8,20,227,0.08);
           border-radius: var(--radius-lg);
-          padding: 2rem 1.75rem 1.75rem;
           position: relative; overflow: hidden;
           transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
           box-shadow: 0 2px 16px rgba(8,20,227,0.06);
@@ -44,21 +50,34 @@ export default function ServiceCard({ service, index = 0 }) {
           box-shadow: 0 16px 48px rgba(8,20,227,0.14);
           border-color: rgba(8,20,227,0.2);
         }
-        .svc-icon-wrap {
-          width: 52px; height: 52px;
-          border-radius: var(--radius);
-          display: flex; align-items: center; justify-content: center;
-          margin-bottom: 1.25rem;
-          transition: transform 0.3s;
+        .svc-img-wrap {
+          position: relative; height: 180px; overflow: hidden;
         }
-        .svc-card:hover .svc-icon-wrap { transform: scale(1.08); }
-        .svc-icon { font-size: 1.6rem; }
-        .svc-num {
-          position: absolute; top: 1.5rem; right: 1.75rem;
-          font-family: 'Fraunces', serif;
-          font-size: 3rem; font-weight: 300;
-          color: rgba(8,20,227,0.06); line-height: 1;
+        .svc-img {
+          width: 100%; height: 100%;
+          object-fit: cover;
+          transition: transform 0.5s ease;
+        }
+        .svc-card:hover .svc-img { transform: scale(1.06); }
+        .svc-img-placeholder {
+          width: 100%; height: 100%;
+          background: linear-gradient(135deg, var(--blue-dim), var(--blue-pale));
+        }
+        .svc-img-overlay {
+          position: absolute; inset: 0;
+          background: linear-gradient(to top, rgba(0,0,0,0.3) 0%, transparent 60%);
           pointer-events: none;
+        }
+        .svc-num {
+          position: absolute; top: 0.85rem; right: 1rem;
+          font-family: 'Fraunces', serif;
+          font-size: 2.2rem; font-weight: 300;
+          color: rgba(255,255,255,0.5); line-height: 1;
+          pointer-events: none;
+        }
+        .svc-body {
+          padding: 1.5rem 1.75rem 1.75rem;
+          display: flex; flex-direction: column; flex: 1;
         }
         .svc-name {
           font-family: 'Fraunces', serif;
