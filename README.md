@@ -66,11 +66,7 @@ npm run build        # Creates dist/ folder
 
 ---
 
-## 🔐 Admin Access
 
-Default credentials (change immediately!):
-- **Username**: `admin`
-- **Password**: `password`
 
 **To set a secure password:**
 ```php
